@@ -16,6 +16,13 @@ interface IQuizModel extends mongoose.Document {
         }
         borderRadius: string
     }
+    players?: IPlayer[]
+}
+
+interface IPlayer {
+    name: string
+    score: number
+    time: number
 }
 
 const Schema = new mongoose.Schema({
@@ -33,7 +40,14 @@ const Schema = new mongoose.Schema({
             success: { type: String, required: true }
         },
         borderRadius: { type: String, required: true }
-    }
+    },
+    players: [
+        {
+            name: { type: String, required: true },
+            score: { type: Number, required: true },
+            time: { type: Number, required: true }
+        }
+    ]
 })
 
 export default mongoose.model<IQuizModel>('Quiz', Schema)
