@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
 
+const notAllowedA = process.env.NOTALLOWEDA!
+const notAllowedB = process.env.NOTALLOWEDB!
+
 import Quiz from '../../models/Quiz'
 
 const QuizController = {
@@ -12,6 +15,18 @@ const QuizController = {
                 description,
                 theme
             } = req.body as IQuiz
+
+            if (
+                title.toLowerCase().includes(notAllowedA) ||
+                title.toLowerCase().includes(notAllowedB)
+            )
+                return res.status(404).json('Error, try again later.')
+
+            if (
+                description.toLowerCase().includes(notAllowedA) ||
+                description.toLowerCase().includes(notAllowedB)
+            )
+                return res.status(404).json('Error, try again later.')
 
             const hasQuiz = await Quiz.findOne({ login: login })
             if (hasQuiz) return res.status(409).json('Quiz already exists')
